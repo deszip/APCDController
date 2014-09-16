@@ -1,0 +1,10 @@
+target 'APCDController', :exclusive => true do
+  pod "APCDController", :path => "../"
+end
+
+target 'Tests', :exclusive => true do
+  pod "APCDController", :path => "../"
+
+  pod 'Specta', '~> 0.2.1'
+  pod 'Expecta'
+end
