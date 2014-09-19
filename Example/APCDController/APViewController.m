@@ -28,6 +28,8 @@
 {
     [super viewDidLoad];
     
+    [APCDController defaultController];
+    
     [self setupFakeData];
     [self setupFRC];
 }
@@ -46,7 +48,7 @@
 
 - (void)setupFRC
 {
-    NSFetchRequest *productRequest = [[NSFetchRequest alloc] initWithEntityName:@"APProduct"];
+    NSFetchRequest *productRequest = [NSFetchRequest fetchRequestWithEntityName:@"APProduct"];
     NSSortDescriptor *productSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES];
     [productRequest setSortDescriptors:@[productSortDescriptor]];
     
@@ -72,9 +74,12 @@
         [newProduct setName:self.productsNames[index]];
         [newProduct setCreationDate:[NSDate date]];
         
-        [APCDController performSave];
+        NSError *saveError = nil;
+        if (![[APCDController workerMOC] save:&saveError]) {
+            NSLog(@"Failed to save context: %@", saveError);
+        }
         
-        [self.frc performFetch:nil];
+        [APCDController performSave];
     }];
 }
 
@@ -138,6 +143,15 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    APProduct *productToRemove = [self.frc objectAtIndexPath:indexPath];
+    [[APCDController mainMOC] deleteObject:productToRemove];
+    [APCDController performSave];
+}
+
 #pragma mark - UITableViewDelegate
+
+
 
 @end

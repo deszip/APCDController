@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0E56860B19CC00B100457E13 /* APProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E56860A19CC00B100457E13 /* APProduct.m */; };
+		0E56860F19CC23D800457E13 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E56860E19CC23D800457E13 /* CoreData.framework */; };
 		0E9CEAC019CBF9F40051B197 /* APCDController.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E9CEABE19CBF9F40051B197 /* APCDController.xcdatamodeld */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -40,6 +41,7 @@
 /* Begin PBXFileReference section */
 		0E56860919CC00B100457E13 /* APProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APProduct.h; path = ../../APProduct.h; sourceTree = "<group>"; };
 		0E56860A19CC00B100457E13 /* APProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APProduct.m; path = ../../APProduct.m; sourceTree = "<group>"; };
+		0E56860E19CC23D800457E13 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		0E9CEABF19CBF9F40051B197 /* APCDController.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = APCDController.xcdatamodel; sourceTree = "<group>"; };
 		2123428C62454BB4B207F018 /* Pods-Tests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.xcconfig"; path = "Pods/Pods-Tests.xcconfig"; sourceTree = "<group>"; };
 		5934AA6CD7684E9AB49025BD /* libPods-APCDController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-APCDController.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E56860F19CC23D800457E13 /* CoreData.framework in Frameworks */,
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
@@ -131,6 +134,7 @@
 		6003F58C195388D20070C39A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0E56860E19CC23D800457E13 /* CoreData.framework */,
 				6003F58D195388D20070C39A /* Foundation.framework */,
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
@@ -449,7 +453,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos7.1;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -481,7 +485,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos7.1;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -497,6 +501,7 @@
 				GCC_PREFIX_HEADER = "APCDController/APCDController-Prefix.pch";
 				INFOPLIST_FILE = "APCDController/APCDController-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos7.1;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -512,6 +517,7 @@
 				GCC_PREFIX_HEADER = "APCDController/APCDController-Prefix.pch";
 				INFOPLIST_FILE = "APCDController/APCDController-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos7.1;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
