@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface APViewController : UIViewController
+#import "APCDController.h"
+#import "APProduct.h"
+
+@interface APViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate> {
+    
+}
+
+@property (weak, nonatomic) IBOutlet UITableView *productsTable;
+
+- (IBAction)addProduct:(id)sender;
 
 @end

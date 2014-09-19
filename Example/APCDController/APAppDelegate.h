@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "APCDController.h"
+
 @interface APAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
