@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A361c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
+        <deployment defaultVersion="1808" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -17,8 +18,46 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F8v-YW-GBg">
+                                <rect key="frame" x="16" y="524" width="288" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" id="veo-mC-ms5">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cMG-UQ-24Z">
+                                            <rect key="frame" x="16" y="7" width="46" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Wipe">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="wipe:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="SZx-q5-GNv"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="laN-0s-dXj"/>
+                                    <barButtonItem title="0" id="jRI-lg-3vA"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="3gQ-Dx-3H7"/>
+                                    <barButtonItem systemItem="add" id="T3a-EA-hDi">
+                                        <connections>
+                                            <action selector="addProduct:" destination="vXZ-lx-hvc" id="RUA-wH-5Aa"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6xC-CD-2bq">
+                                <rect key="frame" x="16" y="20" width="288" height="44"/>
+                                <items>
+                                    <navigationItem id="mtI-68-D8b">
+                                        <barButtonItem key="leftBarButtonItem" title="Items: 0" id="8Lb-bH-kic"/>
+                                        <barButtonItem key="rightBarButtonItem" title="Add 1000" id="yPU-l3-qBg">
+                                            <connections>
+                                                <action selector="addBunchOfProducts:" destination="vXZ-lx-hvc" id="lrF-fl-fdw"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="56F-ES-o5z">
-                                <rect key="frame" x="16" y="0.0" width="288" height="568"/>
+                                <rect key="frame" x="16" y="64" width="288" height="460"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="APCell" textLabel="6Zn-Vn-GRW" detailTextLabel="ciX-vS-mhr" style="IBUITableViewCellStyleSubtitle" id="D62-50-Gsg">
@@ -48,31 +87,25 @@
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="cdR-aL-Zv3"/>
                                 </connections>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F8v-YW-GBg">
-                                <rect key="frame" x="16" y="524" width="288" height="44"/>
-                                <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="laN-0s-dXj"/>
-                                    <barButtonItem systemItem="add" id="T3a-EA-hDi">
-                                        <connections>
-                                            <action selector="addProduct:" destination="vXZ-lx-hvc" id="RUA-wH-5Aa"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="56F-ES-o5z" firstAttribute="top" secondItem="6xC-CD-2bq" secondAttribute="bottom" id="1Ub-kU-8l2"/>
                             <constraint firstAttribute="trailingMargin" secondItem="56F-ES-o5z" secondAttribute="trailing" id="Cdj-2Y-h4Q"/>
                             <constraint firstAttribute="trailingMargin" secondItem="F8v-YW-GBg" secondAttribute="trailing" id="Tlh-Jt-ent"/>
                             <constraint firstItem="56F-ES-o5z" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="Xw3-Q2-wJN"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="6xC-CD-2bq" secondAttribute="trailing" id="YOG-sy-zd3"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="F8v-YW-GBg" secondAttribute="bottom" id="ZQa-nP-poA"/>
                             <constraint firstItem="F8v-YW-GBg" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="d6q-vX-051"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="56F-ES-o5z" secondAttribute="bottom" id="hro-Db-RGi"/>
-                            <constraint firstItem="56F-ES-o5z" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" id="loV-Ia-Jxj"/>
+                            <constraint firstItem="F8v-YW-GBg" firstAttribute="top" secondItem="56F-ES-o5z" secondAttribute="bottom" id="mpZ-X1-Rxb"/>
+                            <constraint firstItem="6xC-CD-2bq" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="sQg-Ne-IbV"/>
+                            <constraint firstItem="6xC-CD-2bq" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" constant="20" id="u2i-BR-F3Z"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="countItem" destination="8Lb-bH-kic" id="Tkz-D9-LXZ"/>
                         <outlet property="productsTable" destination="56F-ES-o5z" id="SmA-Zy-lps"/>
+                        <outlet property="tickItem" destination="jRI-lg-3vA" id="vVg-bm-1Y1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

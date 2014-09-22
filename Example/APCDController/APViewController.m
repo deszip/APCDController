@@ -17,8 +17,16 @@
 @property (strong, nonatomic) NSArray *categoriesNames;
 @property (strong, nonatomic) NSArray *productsNames;
 
+@property (strong, nonatomic) NSTimer *tickTimer;
+
+- (void)setupTickTimer;
 - (void)setupFakeData;
 - (void)setupFRC;
+
+- (void)addItems:(NSUInteger)count;
+
+- (void)updateCountItem;
+- (void)updateTickItem;
 
 @end
 
@@ -30,6 +38,7 @@
     
     [APCDController defaultController];
     
+    [self setupTickTimer];
     [self setupFakeData];
     [self setupFRC];
 }
@@ -40,6 +49,16 @@
 }
 
 #pragma mark - Setup
+
+- (void)setupTickTimer
+{
+    NSMethodSignature *tickSignature = [self methodSignatureForSelector:@selector(updateTickItem)];
+    NSInvocation *tickInvocation = [NSInvocation invocationWithMethodSignature:tickSignature];
+    [tickInvocation setTarget:self];
+    [tickInvocation setSelector:@selector(updateTickItem)];
+    self.tickTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 invocation:tickInvocation repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.tickTimer forMode:NSRunLoopCommonModes];
+}
 
 - (void)setupFakeData
 {
@@ -65,14 +84,49 @@
 
 #pragma mark - Actions
 
+- (IBAction)addBunchOfProducts:(id)sender
+{
+    [self addItems:1000];
+}
+
 - (IBAction)addProduct:(id)sender
 {
+    [self addItems:1];
+}
+
+- (IBAction)wipe:(id)sender
+{
     [[APCDController workerMOC] performBlock:^{
-        APProduct *newProduct = (APProduct *)[NSEntityDescription insertNewObjectForEntityForName:@"APProduct" inManagedObjectContext:[APCDController workerMOC]];
-        
-        NSInteger index = arc4random() % 3;
-        [newProduct setName:self.productsNames[index]];
-        [newProduct setCreationDate:[NSDate date]];
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"APProduct"];
+        NSError *fetchError = nil;
+        NSArray *products = [[APCDController workerMOC] executeFetchRequest:request error:&fetchError];
+        if (products) {
+            for (NSInteger i = 0; i < products.count; i++) {
+                [[APCDController workerMOC] deleteObject:products[i]];
+                
+                NSError *saveError = nil;
+                if (![[APCDController workerMOC] save:&saveError]) {
+                    NSLog(@"Failed to save context: %@", saveError);
+                }
+                
+                [APCDController performSave];
+            }
+        } else {
+            NSLog(@"Failed to fetch all products: %@", fetchError);
+        }
+    }];
+}
+
+- (void)addItems:(NSUInteger)count
+{
+    [[APCDController workerMOC] performBlock:^{
+        for (NSInteger i = 0; i < count; i++) {
+            APProduct *newProduct = (APProduct *)[NSEntityDescription insertNewObjectForEntityForName:@"APProduct" inManagedObjectContext:[APCDController workerMOC]];
+            
+            NSInteger index = arc4random() % 3;
+            [newProduct setName:self.productsNames[index]];
+            [newProduct setCreationDate:[NSDate date]];
+        }
         
         NSError *saveError = nil;
         if (![[APCDController workerMOC] save:&saveError]) {
@@ -81,6 +135,20 @@
         
         [APCDController performSave];
     }];
+}
+
+- (void)updateCountItem
+{
+    id <NSFetchedResultsSectionInfo> sectionInfo = self.frc.sections[0];
+    NSUInteger count = [sectionInfo numberOfObjects];
+    NSString *title = [NSString stringWithFormat:@"Items: %i", count];
+    [self.countItem setTitle:title];
+}
+
+- (void)updateTickItem
+{
+    NSUInteger currentValue = [self.tickItem.title integerValue];
+    [self.tickItem setTitle:[NSString stringWithFormat:@"%i", (currentValue + 1)]];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate
@@ -92,6 +160,8 @@
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
+    [self updateCountItem];
+    
     switch (type) {
         case NSFetchedResultsChangeMove:
             [self.productsTable moveRowAtIndexPath:indexPath toIndexPath:newIndexPath];

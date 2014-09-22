@@ -16,7 +16,11 @@
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *productsTable;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *tickItem;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *countItem;
 
+- (IBAction)addBunchOfProducts:(id)sender;
 - (IBAction)addProduct:(id)sender;
+- (IBAction)wipe:(id)sender;
 
 @end
