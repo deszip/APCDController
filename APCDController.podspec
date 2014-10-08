@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.author           = { "Deszip" => "igor@alterplay.com" }
-  s.source           = { :git => "https://github.com/Deszip/APCDController.git", :tag => "master" }
+  s.source           = { :git => "https://github.com/Deszip/APCDController.git", :tag => "0.1.0" }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.platform     = :ios, '7.0'
