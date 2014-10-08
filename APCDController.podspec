@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.version          = "0.1.0"
   s.summary          = "CoreData stack done right."
   s.description      = <<-DESC
-                        CoreData stack done right.
+                        CoreData stack done right
                        DESC
   s.homepage         = "https://github.com/Deszip/APCDController"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
