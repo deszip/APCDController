@@ -1,0 +1,14 @@
+PODS:
+  - APCDController (0.1.0)
+
+DEPENDENCIES:
+  - APCDController (from `../`)
+
+EXTERNAL SOURCES:
+  APCDController:
+    :path: ../
+
+SPEC CHECKSUMS:
+  APCDController: c0bd5bad081540133ebf05e23ec58719676c8ef1
+
+COCOAPODS: 0.33.1
