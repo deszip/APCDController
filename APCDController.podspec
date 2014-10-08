@@ -12,10 +12,7 @@ Pod::Spec.new do |s|
   s.version          = "0.1.0"
   s.summary          = "CoreData stack done right."
   s.description      = <<-DESC
-                       An optional longer description of APCDController
-
-                       * Markdown format.
-                       * Don't worry about the indent, we strip it!
+                        CoreData stack done right.
                        DESC
   s.homepage         = "https://github.com/Deszip/APCDController"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
