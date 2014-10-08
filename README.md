@@ -20,7 +20,7 @@ it, simply add the following line to your Podfile:
 
 ## Author
 
-Deszip, igor.asharenkov@alterplay.com
+Deszip, igor@alterplay.com
 
 ## License
 
