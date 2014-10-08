@@ -12,6 +12,7 @@
     
 }
 
+@property (strong, nonatomic) APCDController *cdController;
 @property (strong, nonatomic) NSFetchedResultsController *frc;
 
 @property (strong, nonatomic) NSArray *categoriesNames;
@@ -35,8 +36,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [APCDController defaultController];
     
     [self setupTickTimer];
     [self setupFakeData];
@@ -67,11 +66,13 @@
 
 - (void)setupFRC
 {
+    self.cdController = [[APCDController alloc] initWithStoreType:NSSQLiteStoreType andName:@"FooStore1"];
+    
     NSFetchRequest *productRequest = [NSFetchRequest fetchRequestWithEntityName:@"APProduct"];
     NSSortDescriptor *productSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES];
     [productRequest setSortDescriptors:@[productSortDescriptor]];
     
-    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:productRequest managedObjectContext:[APCDController mainMOC] sectionNameKeyPath:nil cacheName:nil];
+    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:productRequest managedObjectContext:[self.cdController mainMOC] sectionNameKeyPath:nil cacheName:nil];
     [self.frc setDelegate:self];
     
     NSError *fetchError = nil;
@@ -96,20 +97,20 @@
 
 - (IBAction)wipe:(id)sender
 {
-    [[APCDController workerMOC] performBlock:^{
+    [[self.cdController workerMOC] performBlock:^{
         NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"APProduct"];
         NSError *fetchError = nil;
-        NSArray *products = [[APCDController workerMOC] executeFetchRequest:request error:&fetchError];
+        NSArray *products = [[self.cdController workerMOC] executeFetchRequest:request error:&fetchError];
         if (products) {
             for (NSInteger i = 0; i < products.count; i++) {
-                [[APCDController workerMOC] deleteObject:products[i]];
+                [[self.cdController workerMOC] deleteObject:products[i]];
                 
                 NSError *saveError = nil;
-                if (![[APCDController workerMOC] save:&saveError]) {
+                if (![[self.cdController workerMOC] save:&saveError]) {
                     NSLog(@"Failed to save context: %@", saveError);
                 }
                 
-                [APCDController performSave];
+                [self.cdController performSave];
             }
         } else {
             NSLog(@"Failed to fetch all products: %@", fetchError);
@@ -119,9 +120,9 @@
 
 - (void)addItems:(NSUInteger)count
 {
-    [[APCDController workerMOC] performBlock:^{
+    [[self.cdController workerMOC] performBlock:^{
         for (NSInteger i = 0; i < count; i++) {
-            APProduct *newProduct = (APProduct *)[NSEntityDescription insertNewObjectForEntityForName:@"APProduct" inManagedObjectContext:[APCDController workerMOC]];
+            APProduct *newProduct = (APProduct *)[NSEntityDescription insertNewObjectForEntityForName:@"APProduct" inManagedObjectContext:[self.cdController workerMOC]];
             
             NSInteger index = arc4random() % 3;
             [newProduct setName:self.productsNames[index]];
@@ -129,11 +130,11 @@
         }
         
         NSError *saveError = nil;
-        if (![[APCDController workerMOC] save:&saveError]) {
+        if (![[self.cdController workerMOC] save:&saveError]) {
             NSLog(@"Failed to save context: %@", saveError);
         }
         
-        [APCDController performSave];
+        [self.cdController performSave];
     }];
 }
 
@@ -141,14 +142,14 @@
 {
     id <NSFetchedResultsSectionInfo> sectionInfo = self.frc.sections[0];
     NSUInteger count = [sectionInfo numberOfObjects];
-    NSString *title = [NSString stringWithFormat:@"Items: %i", count];
+    NSString *title = [NSString stringWithFormat:@"Items: %lu", (unsigned long)count];
     [self.countItem setTitle:title];
 }
 
 - (void)updateTickItem
 {
     NSUInteger currentValue = [self.tickItem.title integerValue];
-    [self.tickItem setTitle:[NSString stringWithFormat:@"%i", (currentValue + 1)]];
+    [self.tickItem setTitle:[NSString stringWithFormat:@"%lu", (currentValue + 1)]];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate
@@ -216,8 +217,8 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     APProduct *productToRemove = [self.frc objectAtIndexPath:indexPath];
-    [[APCDController mainMOC] deleteObject:productToRemove];
-    [APCDController performSave];
+    [[self.cdController mainMOC] deleteObject:productToRemove];
+    [self.cdController performSave];
 }
 
 #pragma mark - UITableViewDelegate
