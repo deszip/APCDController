@@ -10,7 +10,7 @@
 Pod::Spec.new do |s|
   s.name             = "APCDController"
   s.version          = "0.1.0"
-  s.summary          = "A short description of APCDController."
+  s.summary          = "CoreData stack done right."
   s.description      = <<-DESC
                        An optional longer description of APCDController
 
