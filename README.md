@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # APCDController
 
 [![CI Status](http://img.shields.io/travis/Deszip/APCDController.svg?style=flat)](https://travis-ci.org/Deszip/APCDController)
@@ -26,3 +27,9 @@ Deszip, igor.asharenkov@alterplay.com
 
 APCDController is available under the MIT license. See the LICENSE file for more info.
 
+=======
+APCDController
+==============
+
+CoreData stack done right
+>>>>>>> 905be2c8eaa724f860fc4fb8a1435a51792547d1
