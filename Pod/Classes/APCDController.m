@@ -97,7 +97,8 @@ static APCDController *defaultController = nil;
             NSURL *momdURL = [NSURL fileURLWithPath:momdPath];
             _mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:momdURL];
         } else {
-            [NSException raise:NSStringFromClass([self class]) format:@"No model file found at path: %@", momdPath];
+            NSString *providedModelName = [NSString stringWithFormat:@"%@.momd", _storeName];
+            [NSException raise:NSStringFromClass([self class]) format:@"No model file found at path: %@", providedModelName];
         }
 	}
 	
