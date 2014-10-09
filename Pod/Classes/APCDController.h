@@ -76,7 +76,14 @@
 + (NSManagedObjectContext *)spawnBackgroundContextForThread:(NSThread *)thread;
 - (NSManagedObjectContext *)spawnBackgroundContextForThread:(NSThread *)thread;
 
+/**
+ *  Saves main and writer MOCs, saving of worker MOC and any spawned contexts should be performed manually.
+ */
 + (void)performSave;
+
+/**
+ *  Saves main and writer MOCs, saving of worker MOC and any spawned contexts should be performed manually.
+ */
 - (void)performSave;
 
 @end

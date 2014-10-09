@@ -41,6 +41,13 @@ static APCDController *defaultController = nil;
 @property (strong, nonatomic) NSString *storeType;
 @property (strong, nonatomic) NSString *storeName;
 
+/**
+ *  Raises exception with provided reason string
+ *
+ *  @param reason NSString used as reason for NSException raised
+ */
+- (void)raiseExceptionWithReason:(NSString *)reason;
+
 @end
 
 @implementation APCDController
@@ -97,8 +104,8 @@ static APCDController *defaultController = nil;
             NSURL *momdURL = [NSURL fileURLWithPath:momdPath];
             _mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:momdURL];
         } else {
-            NSString *providedModelName = [NSString stringWithFormat:@"%@.momd", _storeName];
-            [NSException raise:NSStringFromClass([self class]) format:@"No model file found at path: %@", providedModelName];
+            NSString *exceptionReason = [NSString stringWithFormat:@"No model file with name: %@.momd", _storeName];
+            [self raiseExceptionWithReason:exceptionReason];
         }
 	}
 	
@@ -246,6 +253,10 @@ static APCDController *defaultController = nil;
 
 #pragma mark - Tools
 
-
+- (void)raiseExceptionWithReason:(NSString *)reason
+{
+    NSException *exception = [NSException exceptionWithName:NSStringFromClass([self class]) reason:reason userInfo:@{}];
+    [exception raise];
+}
 
 @end
