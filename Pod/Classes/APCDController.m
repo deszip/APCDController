@@ -92,10 +92,13 @@ static APCDController *defaultController = nil;
 - (NSManagedObjectModel *)dataModel
 {
 	if ( _mom == nil) {
-		NSString* momdPath = [[NSBundle mainBundle] pathForResource:_storeName ofType:@"momd"];
-		NSURL* momdURL = [NSURL fileURLWithPath:momdPath];
-		
-		_mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:momdURL];
+		NSString *momdPath = [[NSBundle mainBundle] pathForResource:_storeName ofType:@"momd"];
+        if (momdPath) {
+            NSURL *momdURL = [NSURL fileURLWithPath:momdPath];
+            _mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:momdURL];
+        } else {
+            [NSException raise:NSStringFromClass([self class]) format:@"No model file found at path: %@", momdPath];
+        }
 	}
 	
 	return _mom;

@@ -30,6 +30,6 @@ s.source           = { :git => "https://github.com/Deszip/APCDController.git", :
   }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
+  s.frameworks = 'CoreData'
   # s.dependency 'AFNetworking', '~> 2.3'
 end
