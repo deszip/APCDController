@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-static NSString * const kDBName = @"APCDController";
-
 @interface APCDController : NSObject {
     NSManagedObjectModel *_mom;
     NSPersistentStoreCoordinator *_psc;

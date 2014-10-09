@@ -92,7 +92,7 @@ static APCDController *defaultController = nil;
 - (NSManagedObjectModel *)dataModel
 {
 	if ( _mom == nil) {
-		NSString* momdPath = [[NSBundle mainBundle] pathForResource:kDBName ofType:@"momd"];
+		NSString* momdPath = [[NSBundle mainBundle] pathForResource:_storeName ofType:@"momd"];
 		NSURL* momdURL = [NSURL fileURLWithPath:momdPath];
 		
 		_mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:momdURL];
@@ -114,7 +114,7 @@ static APCDController *defaultController = nil;
         
         _psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self dataModel]];
         NSError *error = nil;
-        NSString *psName = [NSString stringWithFormat:@"%@.sqlite", kDBName];
+        NSString *psName = [NSString stringWithFormat:@"%@.sqlite", _storeName];
         [_psc addPersistentStoreWithType:self.storeType configuration:nil URL:[applicationDocumentsDirectory() URLByAppendingPathComponent:psName] options:options error:&error];
     }
     
