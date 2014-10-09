@@ -10,7 +10,7 @@
 
 static NSString * const kAPCDControllerAppBundleNameKey = @"CFBundleName";
 
-NSURL * applicationDocumentsDirectory() {
+NSURL * storeURL() {
 #if TARGET_OS_IPHONE
     return [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
 #elif TARGET_OS_MAC
@@ -28,7 +28,7 @@ NSURL * applicationDocumentsDirectory() {
 #endif
 }
 
-NSString * applicationDisplayName() {
+NSString * storeName() {
     return [[NSBundle mainBundle] objectForInfoDictionaryKey:kAPCDControllerAppBundleNameKey];
 }
 
@@ -40,12 +40,8 @@ static APCDController *defaultController = nil;
 
 @property (strong, nonatomic) NSString *storeType;
 @property (strong, nonatomic) NSString *storeName;
+@property (strong, nonatomic) NSMutableDictionary *spawnedContexts;
 
-/**
- *  Raises exception with provided reason string
- *
- *  @param reason NSString used as reason for NSException raised
- */
 - (void)raiseExceptionWithReason:(NSString *)reason;
 
 @end
@@ -64,7 +60,7 @@ static APCDController *defaultController = nil;
 
 + (instancetype)controllerWithStoreType:(NSString *)storeType
 {
-    APCDController *controller = [[APCDController alloc] initWithStoreType:storeType andName:applicationDisplayName()];
+    APCDController *controller = [[APCDController alloc] initWithStoreType:storeType andName:storeName()];
     
     return controller;
 }
@@ -82,6 +78,7 @@ static APCDController *defaultController = nil;
     if (self) {
         _storeType = storeType;
         _storeName = storeName;
+        _spawnedContexts = [NSMutableDictionary dictionary];
         
         [self buildMOCs];
     }
@@ -126,7 +123,7 @@ static APCDController *defaultController = nil;
         _psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self dataModel]];
         NSError *error = nil;
         NSString *psName = [NSString stringWithFormat:@"%@.sqlite", _storeName];
-        [_psc addPersistentStoreWithType:self.storeType configuration:nil URL:[applicationDocumentsDirectory() URLByAppendingPathComponent:psName] options:options error:&error];
+        [_psc addPersistentStoreWithType:self.storeType configuration:nil URL:[storeURL() URLByAppendingPathComponent:psName] options:options error:&error];
     }
     
     return _psc;
@@ -162,16 +159,6 @@ static APCDController *defaultController = nil;
     return _writerMOC;
 }
 
-+ (NSMutableDictionary *)spawnedContexts
-{
-    return [[APCDController defaultController] spawnedContexts];
-}
-
-- (NSMutableDictionary *)spawnedContexts
-{
-    return _spawnedContexts;
-}
-
 #pragma mark - CoreData setup
 
 - (void)buildMOCs
@@ -193,8 +180,6 @@ static APCDController *defaultController = nil;
         _workerMOC = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         [_workerMOC setParentContext:_mainMOC];
     }
-    
-    _spawnedContexts = [NSMutableDictionary dictionary];
 }
 
 #pragma mark - CoreData routines
@@ -206,12 +191,12 @@ static APCDController *defaultController = nil;
 
 - (NSManagedObjectContext *)spawnBackgroundContextWithName:(NSString *)contextName
 {
-    if (self.spawnedContexts[contextName]) {
-        return self.spawnedContexts[contextName];
+    if (_spawnedContexts[contextName]) {
+        return _spawnedContexts[contextName];
     } else {
         NSManagedObjectContext *newContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         [newContext setParentContext:[self mainMOC]];
-        [self.spawnedContexts setObject:newContext forKey:contextName];
+        [_spawnedContexts setObject:newContext forKey:contextName];
         
         return newContext;
     }

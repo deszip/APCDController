@@ -15,8 +15,6 @@
     NSManagedObjectContext *_mainMOC;
     NSManagedObjectContext *_workerMOC;
     NSManagedObjectContext *_writerMOC;
-    
-    NSMutableDictionary *_spawnedContexts;
 }
 
 /**
@@ -55,7 +53,7 @@
  */
 - (instancetype)initWithStoreType:(NSString *)storeType andName:(NSString *)storeName __attribute__((objc_designated_initializer));
 
-/* CoreData stack */
+/* CoreData stack accessors */
 + (NSManagedObjectModel *)dataModel;
 - (NSManagedObjectModel *)dataModel;
 + (NSPersistentStoreCoordinator *)persistentStoreCoordinator;
@@ -66,18 +64,47 @@
 - (NSManagedObjectContext *)workerMOC;
 + (NSManagedObjectContext *)writerMOC;
 - (NSManagedObjectContext *)writerMOC;
-+ (NSMutableDictionary *)spawnedContexts;
-- (NSMutableDictionary *)spawnedContexts;
 
-/* CoreData routines */
+/**
+ *  Convinience version of '- (NSManagedObjectContext *)spawnBackgroundContextWithName:(NSString *)contextName;
+' wich uses defaultController instance.
+ *
+ * @see - (NSManagedObjectContext *)spawnBackgroundContextWithName:(NSString *)contextName;
+ */
 + (NSManagedObjectContext *)spawnBackgroundContextWithName:(NSString *)contextName;
+
+/**
+ *  Creates new MOC with NSPrivateQueueConcurrencyType or return already existed using provided name as a key.
+ *
+ *  @param contextName NSString name to use for context
+ *
+ *  @return NSManagedObjectContext context attached as a child to mainMOC
+ */
 - (NSManagedObjectContext *)spawnBackgroundContextWithName:(NSString *)contextName;
 
+/**
+ *  Convinience version of '- (NSManagedObjectContext *)spawnBackgroundContextWithName:(NSString *)contextName;
+ ' wich uses defaultController instance.
+ *
+ *  @see - (NSManagedObjectContext *)spawnBackgroundContextWithName:(NSString *)contextName;
+ */
 + (NSManagedObjectContext *)spawnBackgroundContextForThread:(NSThread *)thread;
+
+/**
+ *  Creates new MOC with NSPrivateQueueConcurrencyType or return already existed using return value of provided NSThread description method as a key.
+ *
+ *  @note Returned context will use its own thread and you should access it only with one of 'performBlock' methods. Thread passed in argument is used only for key generation.
+ *
+ *  @param thread NSThread to be used as a key for context
+ *
+ *  @return NSManagedObjectContext context attached as a child to mainMOC
+ */
 - (NSManagedObjectContext *)spawnBackgroundContextForThread:(NSThread *)thread;
 
 /**
- *  Saves main and writer MOCs, saving of worker MOC and any spawned contexts should be performed manually.
+ *  Convinience version of '- (void)performSave' wich uses defaultController instance.
+ *
+ *  @see - (void)performSave
  */
 + (void)performSave;
 

@@ -40,6 +40,7 @@
     [self setupTickTimer];
     [self setupFakeData];
     [self setupFRC];
+    [self updateCountItem];
 }
 
 - (void)didReceiveMemoryWarning
@@ -66,7 +67,7 @@
 
 - (void)setupFRC
 {
-    self.cdController = [[APCDController alloc] initWithStoreType:NSSQLiteStoreType andName:@"FooStore1"];
+    self.cdController = [APCDController controllerWithStoreType:NSSQLiteStoreType];
     
     NSFetchRequest *productRequest = [NSFetchRequest fetchRequestWithEntityName:@"APProduct"];
     NSSortDescriptor *productSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES];
@@ -79,8 +80,6 @@
     if (![self.frc performFetch:&fetchError]) {
         NSLog(@"FRC failed to fetch: %@", fetchError);
     }
-    
-    NSLog(@"Objects: %@", self.frc.fetchedObjects);
 }
 
 #pragma mark - Actions
@@ -149,7 +148,7 @@
 - (void)updateTickItem
 {
     NSUInteger currentValue = [self.tickItem.title integerValue];
-    [self.tickItem setTitle:[NSString stringWithFormat:@"%lu", (currentValue + 1)]];
+    [self.tickItem setTitle:[NSString stringWithFormat:@"%u", (currentValue + 1)]];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate
