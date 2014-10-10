@@ -23,8 +23,8 @@ APCDController
 Simple CoreData stack with multi-context approach to multithreading.
 
 For details and theory we would recommend reading:
-* [Multi-Context CoreData](http://www.cocoanetics.com/2012/07/multi-context-coredata/).
-* [Zarra on Locking](http://www.cocoanetics.com/2013/02/zarra-on-locking/).
+* [Multi-Context CoreData](http://www.cocoanetics.com/2012/07/multi-context-coredata/)
+* [Zarra on Locking](http://www.cocoanetics.com/2013/02/zarra-on-locking/)
 
 #### Contributor's guide
 Please, send your pull request to the `master` branch. Thank you!
