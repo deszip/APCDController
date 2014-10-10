@@ -1,9 +1,9 @@
 //
 //  APCDController.m
-//  Avaamo
+//  APCDController
 //
 //  Created by Deszip on 25.07.13.
-//  Copyright (c) 2013 Igor. All rights reserved.
+//  Copyright (c) 2013 Alterplay. All rights reserved.
 //
 
 #import "APCDController.h"

@@ -3,7 +3,7 @@
 //  APCDController
 //
 //  Created by Deszip on 19/09/14.
-//  Copyright (c) 2014 Deszip. All rights reserved.
+//  Copyright (c) 2014 Alterplay. All rights reserved.
 //
 
 #import "APProduct.h"
