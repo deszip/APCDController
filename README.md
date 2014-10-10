@@ -1,9 +1,5 @@
 # APCDController
 
-[![CI Status](http://img.shields.io/travis/Deszip/APCDController.svg?style=flat)](https://travis-ci.org/Deszip/APCDController)
-[![Version](https://img.shields.io/cocoapods/v/APCDController.svg?style=flat)](http://cocoadocs.org/docsets/APCDController)
-[![License](https://img.shields.io/cocoapods/l/APCDController.svg?style=flat)](http://cocoadocs.org/docsets/APCDController)
-[![Platform](https://img.shields.io/cocoapods/p/APCDController.svg?style=flat)](http://cocoadocs.org/docsets/APCDController)
 
 ## Usage
 
