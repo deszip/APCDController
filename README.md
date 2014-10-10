@@ -27,3 +27,13 @@ APCDController
 ==============
 
 CoreData stack done right
+
+#### Contributor's guide
+Please, send your pull request to the `master` branch. Thank you!
+
+#### Contacts
+
+If you have improvements or concerns, feel free to post [an issue](https://github.com/deszip/APCDController/issues) and write details.
+
+[Check out](https://github.com/Alterplay) all Alterplay's GitHub projects.
+[Email us](mailto:igor@alterplay.com) with other ideas and projects.
