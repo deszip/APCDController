@@ -19,7 +19,7 @@
 
 /**
  *  Singleton constructor.
- *  Returns singleton instance with NSSQLiteStoreType store sat up with DB name from kDBName constant
+ *  Returns singleton instance with NSSQLiteStoreType store sat up with DB name from CFBundleName Info.plist value
  *
  *  @return AVMCDController with NSSQLiteStoreType store, fully initialized with sat up store and built MOCs
  */
@@ -28,7 +28,7 @@
 /**
  *  Convinience initializer
  *
- *  @param storeType NSString indicating store type. Available are NSSQLiteStoreType, NSXMLStoreType, NSBinaryStoreType, NSInMemoryStoreType
+ *  @param storeType NSString indicating store type. Available are NSSQLiteStoreType, NSXMLStoreType, NSBinaryStoreType, NSInMemoryStoreType. Using CFBundleName Info.plist value as model file name.
  *
  *  @return AVMCDController with store of passed type.
  */
