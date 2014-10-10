@@ -14,10 +14,6 @@ it, simply add the following line to your Podfile:
 
     pod "APCDController"
 
-## Author
-
-Deszip, igor@alterplay.com
-
 ## License
 
 APCDController is available under the MIT license. See the LICENSE file for more info.
