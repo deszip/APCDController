@@ -67,7 +67,7 @@
 
 /**
  *  Convinience version of '- (NSManagedObjectContext *)spawnBackgroundContextWithName:(NSString *)contextName;
-' wich uses defaultController instance.
+' which uses defaultController instance.
  *
  * @see - (NSManagedObjectContext *)spawnBackgroundContextWithName:(NSString *)contextName;
  */
@@ -84,7 +84,7 @@
 
 /**
  *  Convinience version of '- (NSManagedObjectContext *)spawnBackgroundContextWithName:(NSString *)contextName;
- ' wich uses defaultController instance.
+ ' which uses defaultController instance.
  *
  *  @see - (NSManagedObjectContext *)spawnBackgroundContextWithName:(NSString *)contextName;
  */
@@ -102,7 +102,7 @@
 - (NSManagedObjectContext *)spawnBackgroundContextForThread:(NSThread *)thread;
 
 /**
- *  Convinience version of '- (void)performSave' wich uses defaultController instance.
+ *  Convinience version of '- (void)performSave' which uses defaultController instance.
  *
  *  @see - (void)performSave
  */
