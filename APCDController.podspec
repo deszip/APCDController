@@ -1,12 +1,3 @@
-#
-# Be sure to run `pod lib lint APCDController.podspec' to ensure this is a
-# valid spec and remove all comments before submitting the spec.
-#
-# Any lines starting with a # are optional, but encouraged
-#
-# To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
-#
-
 Pod::Spec.new do |s|
   s.name             = "APCDController"
   s.version          = "0.1.1"
@@ -19,7 +10,6 @@ Pod::Spec.new do |s|
   s.license          = 'MIT'
   s.author           = { "Deszip" => "igor@alterplay.com" }
   s.source           = { :git => "https://github.com/Deszip/APCDController.git", :tag => s.version.to_s}
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.platform     = :ios, '7.0'
   s.requires_arc = true
@@ -31,5 +21,4 @@ Pod::Spec.new do |s|
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'CoreData'
-  # s.dependency 'AFNetworking', '~> 2.3'
 end
