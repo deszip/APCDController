@@ -102,6 +102,21 @@
 - (NSManagedObjectContext *)spawnBackgroundContextForThread:(NSThread *)thread;
 
 /**
+ *  Convinience version of - (NSManagedObjectContext *)spawnEphemeralBackgroundContext;
+ *
+ *  @see - (NSManagedObjectContext *)spawnEphemeralBackgroundContext;
+ */
++ (NSManagedObjectContext *)spawnEphemeralBackgroundContext;
+
+/**
+ *  Creates new ephemeral context with NSPrivateQueueConcurrencyType. Will not be cached. You are responsive for its memory management.
+ *
+ *  @note Returned context will use its own thread and you should access it only with one of 'performBlock' methods. 
+ *  @return NSManagedObjectContext context attached as a child to mainMOC
+ */
+- (NSManagedObjectContext *)spawnEphemeralBackgroundContext;
+
+/**
  *  Convinience version of '- (void)performSave' which uses defaultController instance.
  *
  *  @see - (void)performSave

@@ -212,6 +212,18 @@ static APCDController *defaultController = nil;
     return [self spawnBackgroundContextWithName:thread.description];
 }
 
++ (NSManagedObjectContext *)spawnEphemeralBackgroundContext
+{
+    return [[APCDController defaultController] spawnEphemeralBackgroundContext];
+}
+
+- (NSManagedObjectContext *)spawnEphemeralBackgroundContext
+{
+    NSManagedObjectContext *newContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [newContext setParentContext:[self mainMOC]];
+    return newContext;
+}
+
 + (void)performSave
 {
     [[APCDController defaultController] performSave];
