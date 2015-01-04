@@ -17,6 +17,8 @@
     NSManagedObjectContext *_writerMOC;
 }
 
+#pragma mark - Initializers
+
 /**
  *  Singleton constructor.
  *  Returns singleton instance with NSSQLiteStoreType store sat up with DB name from CFBundleName Info.plist value
@@ -53,25 +55,15 @@
  */
 - (instancetype)initWithStoreType:(NSString *)storeType andName:(NSString *)storeName __attribute__((objc_designated_initializer));
 
-/* CoreData stack accessors */
-+ (NSManagedObjectModel *)dataModel;
+#pragma mark - Core Data Stack Accessors
+
 - (NSManagedObjectModel *)dataModel;
-+ (NSPersistentStoreCoordinator *)persistentStoreCoordinator;
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator;
-+ (NSManagedObjectContext *)mainMOC;
 - (NSManagedObjectContext *)mainMOC;
-+ (NSManagedObjectContext *)workerMOC;
 - (NSManagedObjectContext *)workerMOC;
-+ (NSManagedObjectContext *)writerMOC;
 - (NSManagedObjectContext *)writerMOC;
 
-/**
- *  Convinience version of '- (NSManagedObjectContext *)spawnBackgroundContextWithName:(NSString *)contextName;
-' which uses defaultController instance.
- *
- * @see - (NSManagedObjectContext *)spawnBackgroundContextWithName:(NSString *)contextName;
- */
-+ (NSManagedObjectContext *)spawnBackgroundContextWithName:(NSString *)contextName;
+#pragma mark - CoreData routines
 
 /**
  *  Creates new MOC with NSPrivateQueueConcurrencyType or return already existed using provided name as a key.
@@ -81,14 +73,6 @@
  *  @return NSManagedObjectContext context attached as a child to mainMOC
  */
 - (NSManagedObjectContext *)spawnBackgroundContextWithName:(NSString *)contextName;
-
-/**
- *  Convinience version of '- (NSManagedObjectContext *)spawnBackgroundContextWithName:(NSString *)contextName;
- ' which uses defaultController instance.
- *
- *  @see - (NSManagedObjectContext *)spawnBackgroundContextWithName:(NSString *)contextName;
- */
-+ (NSManagedObjectContext *)spawnBackgroundContextForThread:(NSThread *)thread;
 
 /**
  *  Creates new MOC with NSPrivateQueueConcurrencyType or return already existed using return value of provided NSThread description method as a key.
@@ -102,26 +86,12 @@
 - (NSManagedObjectContext *)spawnBackgroundContextForThread:(NSThread *)thread;
 
 /**
- *  Convinience version of - (NSManagedObjectContext *)spawnEphemeralBackgroundContext;
- *
- *  @see - (NSManagedObjectContext *)spawnEphemeralBackgroundContext;
- */
-+ (NSManagedObjectContext *)spawnEphemeralBackgroundContext;
-
-/**
  *  Creates new ephemeral context with NSPrivateQueueConcurrencyType. Will not be cached. You are responsive for its memory management.
  *
  *  @note Returned context will use its own thread and you should access it only with one of 'performBlock' methods. 
  *  @return NSManagedObjectContext context attached as a child to mainMOC
  */
 - (NSManagedObjectContext *)spawnEphemeralBackgroundContext;
-
-/**
- *  Convinience version of '- (void)performSave' which uses defaultController instance.
- *
- *  @see - (void)performSave
- */
-+ (void)performSave;
 
 /**
  *  Saves main and writer MOCs, saving of worker MOC and any spawned contexts should be performed manually.
