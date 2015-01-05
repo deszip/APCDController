@@ -181,6 +181,7 @@ static APCDController *defaultController = nil;
 {
     NSManagedObjectContext *newContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     [newContext setParentContext:[self mainMOC]];
+
     return newContext;
 }
 
