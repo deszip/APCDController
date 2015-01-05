@@ -88,11 +88,6 @@ static APCDController *defaultController = nil;
 
 #pragma mark - CoreData stack
 
-+ (NSManagedObjectModel *)dataModel
-{
-    return [defaultController dataModel];
-}
-
 - (NSManagedObjectModel *)dataModel
 {
 	if ( _mom == nil) {
@@ -107,11 +102,6 @@ static APCDController *defaultController = nil;
 	}
 	
 	return _mom;
-}
-
-+ (NSPersistentStoreCoordinator *)persistentStoreCoordinator
-{
-    return [defaultController persistentStoreCoordinator];
 }
 
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator
@@ -129,29 +119,14 @@ static APCDController *defaultController = nil;
     return _psc;
 }
 
-+ (NSManagedObjectContext *)mainMOC
-{
-    return [[APCDController defaultController] mainMOC];
-}
-
 - (NSManagedObjectContext *)mainMOC
 {
     return _mainMOC;
 }
 
-+ (NSManagedObjectContext *)workerMOC
-{
-    return [[APCDController defaultController] workerMOC];
-}
-
 - (NSManagedObjectContext *)workerMOC
 {
     return _workerMOC;
-}
-
-+ (NSManagedObjectContext *)writerMOC
-{
-    return [[APCDController defaultController] writerMOC];
 }
 
 - (NSManagedObjectContext *)writerMOC
@@ -184,11 +159,6 @@ static APCDController *defaultController = nil;
 
 #pragma mark - CoreData routines
 
-+ (NSManagedObjectContext *)spawnBackgroundContextWithName:(NSString *)contextName
-{
-    return [[APCDController defaultController] spawnBackgroundContextWithName:contextName];
-}
-
 - (NSManagedObjectContext *)spawnBackgroundContextWithName:(NSString *)contextName
 {
     if (_spawnedContexts[contextName]) {
@@ -202,19 +172,16 @@ static APCDController *defaultController = nil;
     }
 }
 
-+ (NSManagedObjectContext *)spawnBackgroundContextForThread:(NSThread *)thread
-{
-    return [APCDController spawnBackgroundContextWithName:thread.description];
-}
-
 - (NSManagedObjectContext *)spawnBackgroundContextForThread:(NSThread *)thread
 {
     return [self spawnBackgroundContextWithName:thread.description];
 }
 
-+ (void)performSave
+- (NSManagedObjectContext *)spawnEphemeralBackgroundContext
 {
-    [[APCDController defaultController] performSave];
+    NSManagedObjectContext *newContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [newContext setParentContext:[self mainMOC]];
+    return newContext;
 }
 
 - (void)performSave
