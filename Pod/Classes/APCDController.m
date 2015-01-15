@@ -91,12 +91,9 @@ static APCDController *defaultController = nil;
 - (NSManagedObjectModel *)dataModel
 {
 	if ( _mom == nil) {
-		NSString *momdPath = [[NSBundle mainBundle] pathForResource:_storeName ofType:@"momd"];
-        if (momdPath) {
-            NSURL *momdURL = [NSURL fileURLWithPath:momdPath];
-            _mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:momdURL];
-        } else {
-            NSString *exceptionReason = [NSString stringWithFormat:@"No model file with name: %@.momd", _storeName];
+        _mom = [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle bundleForClass:[self class]]]];
+        if (!_mom) {
+            NSString *exceptionReason = [NSString stringWithFormat:@"Failed to build NSManagedObjectModel '%@'", _storeName];
             [self raiseExceptionWithReason:exceptionReason];
         }
 	}

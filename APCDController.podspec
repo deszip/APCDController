@@ -6,7 +6,6 @@ Pod::Spec.new do |s|
                         Simple class containing multithreaded CoreData stack.
                        DESC
   s.homepage         = "https://github.com/Deszip/APCDController"
-  # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.author           = { "Deszip" => "igor@alterplay.com" }
   s.source           = { :git => "https://github.com/Deszip/APCDController.git", :tag => s.version.to_s}
@@ -17,7 +16,5 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes'
-
-  # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'CoreData'
 end
