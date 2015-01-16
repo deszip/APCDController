@@ -8,7 +8,13 @@
 
 #import "APCDController.h"
 
-static NSString * const kAPCDControllerAppBundleNameKey = @"CFBundleName";
+static NSString * const kAPCDControllerNoModelFileException     = @"Can't find model '%@'";
+static NSString * const kAPCDControllerModelFailureException    = @"Failed to initialize NSManagedObjectModel '%@'";
+
+static NSString * const kAPCDControllerModelMOMExtension        = @"mom";
+static NSString * const kAPCDControllerModelMOMDExtension       = @"momd";
+
+static NSString * const kAPCDControllerAppBundleNameKey         = @"CFBundleName";
 
 NSURL * storeURL() {
 #if TARGET_OS_IPHONE
@@ -42,6 +48,7 @@ static APCDController *defaultController = nil;
 @property (strong, nonatomic) NSString *storeName;
 @property (strong, nonatomic) NSMutableDictionary *spawnedContexts;
 
+- (NSURL *)modelURL;
 - (void)raiseExceptionWithReason:(NSString *)reason;
 
 @end
@@ -91,9 +98,20 @@ static APCDController *defaultController = nil;
 - (NSManagedObjectModel *)dataModel
 {
 	if ( _mom == nil) {
-        _mom = [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle bundleForClass:[self class]]]];
+        if (_storeName) {
+            NSURL *modelURL = [self modelURL];
+            if (!modelURL) {
+                NSString *exceptionReason = [NSString stringWithFormat:kAPCDControllerNoModelFileException, _storeName];
+                [self raiseExceptionWithReason:exceptionReason];
+            }
+            
+            _mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+        } else {
+            _mom = [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle bundleForClass:[self class]]]];
+        }
+        
         if (!_mom) {
-            NSString *exceptionReason = [NSString stringWithFormat:@"Failed to build NSManagedObjectModel '%@'", _storeName];
+            NSString *exceptionReason = [NSString stringWithFormat:kAPCDControllerModelFailureException, _storeName];
             [self raiseExceptionWithReason:exceptionReason];
         }
 	}
@@ -202,6 +220,20 @@ static APCDController *defaultController = nil;
 }
 
 #pragma mark - Tools
+
+- (NSURL *)modelURL
+{
+    NSURL *modelURL = nil;
+    
+    NSString *momdPath = [[NSBundle mainBundle] pathForResource:_storeName ofType:kAPCDControllerModelMOMDExtension];
+    modelURL = [NSURL fileURLWithPath:momdPath];
+    if (!modelURL) {
+        NSString *momPath = [[NSBundle mainBundle] pathForResource:_storeName ofType:kAPCDControllerModelMOMExtension];
+        modelURL = [NSURL fileURLWithPath:momPath];
+    }
+    
+    return modelURL;
+}
 
 - (void)raiseExceptionWithReason:(NSString *)reason
 {
