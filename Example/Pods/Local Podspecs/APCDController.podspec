@@ -1,38 +1,20 @@
-#
-# Be sure to run `pod lib lint APCDController.podspec' to ensure this is a
-# valid spec and remove all comments before submitting the spec.
-#
-# Any lines starting with a # are optional, but encouraged
-#
-# To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
-#
-
 Pod::Spec.new do |s|
   s.name             = "APCDController"
-  s.version          = "0.1.0"
-  s.summary          = "A short description of APCDController."
+  s.version          = "0.1.4"
+  s.summary          = "CoreData stack done right."
   s.description      = <<-DESC
-                       An optional longer description of APCDController
-
-                       * Markdown format.
-                       * Don't worry about the indent, we strip it!
+                        Simple class containing multithreaded CoreData stack.
                        DESC
-  s.homepage         = "https://github.com/<GITHUB_USERNAME>/APCDController"
-  # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
+  s.homepage         = "https://github.com/Deszip/APCDController"
   s.license          = 'MIT'
-  s.author           = { "Deszip" => "igor.asharenkov@alterplay.com" }
-  s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/APCDController.git", :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  s.author           = { "Deszip" => "igor@alterplay.com" }
+  s.source           = { :git => "https://github.com/Deszip/APCDController.git", :tag => s.version.to_s}
 
-  s.platform     = :ios, '7.0'
+  s.ios.deployment_target = '7.0'
+  s.osx.deployment_target = '10.8'
+
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes'
-  s.resource_bundles = {
-    'APCDController' => ['Pod/Assets/*.png']
-  }
-
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.frameworks = 'CoreData'
 end

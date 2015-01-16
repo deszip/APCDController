@@ -8,13 +8,14 @@
 
 #import "APCDController.h"
 
-static NSString * const kAPCDControllerNoModelFileException     = @"Can't find model '%@'";
-static NSString * const kAPCDControllerModelFailureException    = @"Failed to initialize NSManagedObjectModel '%@'";
+static NSString * const kAPCDControllerNoModelFileException         = @"Can't find model '%@'";
+static NSString * const kAPCDControllerModelFailureException        = @"Failed to initialize NSManagedObjectModel '%@'";
+static NSString * const kAPCDControllerStorAddingFailureException   = @"Failed to add store to coordinator: %@";
 
-static NSString * const kAPCDControllerModelMOMExtension        = @"mom";
-static NSString * const kAPCDControllerModelMOMDExtension       = @"momd";
+static NSString * const kAPCDControllerModelMOMExtension            = @"mom";
+static NSString * const kAPCDControllerModelMOMDExtension           = @"momd";
 
-static NSString * const kAPCDControllerAppBundleNameKey         = @"CFBundleName";
+static NSString * const kAPCDControllerAppBundleNameKey             = @"CFBundleName";
 
 NSURL * storeURL() {
 #if TARGET_OS_IPHONE
@@ -128,7 +129,11 @@ static APCDController *defaultController = nil;
         _psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self dataModel]];
         NSError *error = nil;
         NSString *psName = [NSString stringWithFormat:@"%@.sqlite", _storeName];
-        [_psc addPersistentStoreWithType:self.storeType configuration:nil URL:[storeURL() URLByAppendingPathComponent:psName] options:options error:&error];
+        
+        if (![_psc addPersistentStoreWithType:self.storeType configuration:nil URL:[storeURL() URLByAppendingPathComponent:psName] options:options error:&error]) {
+            NSString *exceptionReason = [NSString stringWithFormat:kAPCDControllerStorAddingFailureException, error];
+            [self raiseExceptionWithReason:exceptionReason];
+        }
     }
     
     return _psc;

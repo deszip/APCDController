@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0EA09E4719D079D30074CF90"
-               BuildableName = "APCDController Tests.xctest"
-               BlueprintName = "APCDController Tests"
+               BuildableName = "APCDController_Tests.xctest"
+               BlueprintName = "APCDController_Tests"
                ReferencedContainer = "container:APCDController.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,8 +47,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0EA09E4719D079D30074CF90"
-               BuildableName = "APCDController Tests.xctest"
-               BlueprintName = "APCDController Tests"
+               BuildableName = "APCDController_Tests.xctest"
+               BlueprintName = "APCDController_Tests"
                ReferencedContainer = "container:APCDController.xcodeproj">
             </BuildableReference>
          </TestableReference>

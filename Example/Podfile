@@ -2,6 +2,8 @@ target 'APCDController', :exclusive => true do
   pod "APCDController", :path => "../"
 end
 
-target 'Tests', :exclusive => true do
+target 'APCDController_Tests', :exclusive => true do
   pod "APCDController", :path => "../"
+  pod 'OCMock'
+  pod 'Expecta'
 end

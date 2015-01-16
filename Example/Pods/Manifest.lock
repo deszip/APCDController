@@ -1,14 +1,20 @@
 PODS:
-  - APCDController (0.1.0)
+  - APCDController (0.1.4)
+  - Expecta (0.3.1)
+  - OCMock (3.1.2)
 
 DEPENDENCIES:
   - APCDController (from `../`)
+  - Expecta
+  - OCMock
 
 EXTERNAL SOURCES:
   APCDController:
     :path: ../
 
 SPEC CHECKSUMS:
-  APCDController: c0bd5bad081540133ebf05e23ec58719676c8ef1
+  APCDController: 4e8838196b6b37c948a6f778cd7dbbec2d998bdc
+  Expecta: 03aabd0a89d8dea843baecb19a7fd7466a69a31d
+  OCMock: ecdd510b73ef397f2f97274785c1e87fd147c49f
 
-COCOAPODS: 0.33.1
+COCOAPODS: 0.35.0
