@@ -8,15 +8,31 @@
 
 #import "APCDController.h"
 
+/**
+ *  Exceptions strings
+ */
 static NSString * const kAPCDControllerNoModelFileException         = @"Can't find model '%@'";
 static NSString * const kAPCDControllerModelFailureException        = @"Failed to initialize NSManagedObjectModel '%@'";
 static NSString * const kAPCDControllerStorAddingFailureException   = @"Failed to add store to coordinator: %@";
 
+/**
+ *  Compiled model file extensions.
+ *  Note that 'mom' is used for a single model and 'momd' for a versioned model with 'mom' inside for each version.
+ */
 static NSString * const kAPCDControllerModelMOMExtension            = @"mom";
 static NSString * const kAPCDControllerModelMOMDExtension           = @"momd";
 
+/**
+ *  Used to get default name for store
+ */
 static NSString * const kAPCDControllerAppBundleNameKey             = @"CFBundleName";
 
+/**
+ *  Gets URL where CoreData store will reside
+ *
+ *  @return NSURL   url pointing directory wich will contain store file.
+ *                  NSLibraryDirectory on iOS and NSApplicationSupportDirectory/CFBundleName on OS X
+ */
 NSURL * storeURL() {
 #if TARGET_OS_IPHONE
     return [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
@@ -35,6 +51,11 @@ NSURL * storeURL() {
 #endif
 }
 
+/**
+ *  Wraps obtaining store name
+ *
+ *  @return NSString fro Info.plist CFBundleName key
+ */
 NSString * storeName() {
     return [[NSBundle mainBundle] objectForInfoDictionaryKey:kAPCDControllerAppBundleNameKey];
 }
@@ -49,7 +70,18 @@ static APCDController *defaultController = nil;
 @property (strong, nonatomic) NSString *storeName;
 @property (strong, nonatomic) NSMutableDictionary *spawnedContexts;
 
+/**
+ *  Gets URL for model file. Due to lack of clear instructions in Apple documentation starting with .momd file. If this could not be found, tries .mom file, and fails with nil if it also wasn't found.
+ *
+ *  @return NSURL url for model file
+ */
 - (NSURL *)modelURL;
+
+/**
+ *  Exception raising wrapper
+ *
+ *  @param reason NSString string used as reason for exception
+ */
 - (void)raiseExceptionWithReason:(NSString *)reason;
 
 @end
@@ -228,14 +260,17 @@ static APCDController *defaultController = nil;
 
 - (NSURL *)modelURL
 {
-    NSURL *modelURL = nil;
+    NSString *modelPath = nil;
     
-    NSString *momdPath = [[NSBundle mainBundle] pathForResource:_storeName ofType:kAPCDControllerModelMOMDExtension];
-    modelURL = [NSURL fileURLWithPath:momdPath];
-    if (!modelURL) {
-        NSString *momPath = [[NSBundle mainBundle] pathForResource:_storeName ofType:kAPCDControllerModelMOMExtension];
-        modelURL = [NSURL fileURLWithPath:momPath];
+    modelPath = [[NSBundle mainBundle] pathForResource:_storeName ofType:kAPCDControllerModelMOMDExtension];
+    if (!modelPath) {
+        modelPath = [[NSBundle mainBundle] pathForResource:_storeName ofType:kAPCDControllerModelMOMExtension];
+        if (!modelPath) {
+            return nil;
+        }
     }
+    
+    NSURL *modelURL = [NSURL fileURLWithPath:modelPath];
     
     return modelURL;
 }
