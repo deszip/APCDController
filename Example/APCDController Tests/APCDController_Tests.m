@@ -40,7 +40,7 @@ static NSString * const kAPCDControllerFakeModelName        = @"NoSuchModel";
 - (void)testBuildTime
 {
     [self measureBlock:^{
-        [APCDController defaultController];
+        [APCDController controllerWithStoreType:NSSQLiteStoreType andName:kAPCDControllerDefaultModelName];
     }];
 }
 
@@ -55,16 +55,16 @@ static NSString * const kAPCDControllerFakeModelName        = @"NoSuchModel";
     BOOL store1Loaded = [[[storeURL_1 lastPathComponent] stringByDeletingPathExtension] isEqualToString:kAPCDControllerSecondModelName];
     BOOL store2Loaded = [[[storeURL_2 lastPathComponent] stringByDeletingPathExtension] isEqualToString:kAPCDControllerDefaultModelName];
     
-    XCTAssert(store1Loaded && store2Loaded, @"Failed to load stores by model name");
+    expect(store1Loaded && store2Loaded).to.beTruthy();
 }
 
 - (void)testModelLoadingByDefaultPath
 {
-    APCDController *controller = [APCDController controllerWithStoreType:NSSQLiteStoreType];
+    APCDController *controller = [APCDController controllerWithStoreType:NSSQLiteStoreType andName:kAPCDControllerDefaultModelName];
     NSURL *storeURL = [[controller.persistentStoreCoordinator.persistentStores firstObject] URL];
     BOOL storeLoaded = [[[storeURL lastPathComponent] stringByDeletingPathExtension] isEqualToString:kAPCDControllerDefaultModelName];
     
-    XCTAssert(storeLoaded, @"Failed to load default store");
+    expect(storeLoaded).to.beTruthy();
 }
 
 - (void)testModelLoadingFailure

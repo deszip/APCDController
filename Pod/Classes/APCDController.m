@@ -27,45 +27,13 @@ static NSString * const kAPCDControllerModelMOMDExtension           = @"momd";
  */
 static NSString * const kAPCDControllerAppBundleNameKey             = @"CFBundleName";
 
-/**
- *  Gets URL where CoreData store will reside
- *
- *  @return NSURL   url pointing directory wich will contain store file.
- *                  NSLibraryDirectory on iOS and NSApplicationSupportDirectory/CFBundleName on OS X
- */
-NSURL * storeURL() {
-#if TARGET_OS_IPHONE
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
-#elif TARGET_OS_MAC
-    NSURL *appSupportURL = [[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject];
-    NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:kAPCDControllerAppBundleNameKey];
-    appSupportURL = [appSupportURL URLByAppendingPathComponent:appName isDirectory:YES];
-    
-    BOOL isDirectory;
-    if (![[NSFileManager defaultManager] fileExistsAtPath:[appSupportURL path] isDirectory:&isDirectory]) {
-        NSError *creationError = nil;
-        [[NSFileManager defaultManager] createDirectoryAtURL:appSupportURL withIntermediateDirectories:YES attributes:nil error:&creationError];
-    }
-    
-    return appSupportURL;
-#endif
-}
-
-/**
- *  Wraps obtaining store name
- *
- *  @return NSString fro Info.plist CFBundleName key
- */
-NSString * storeName() {
-    return [[NSBundle mainBundle] objectForInfoDictionaryKey:kAPCDControllerAppBundleNameKey];
-}
-
 static APCDController *defaultController = nil;
 
 @interface APCDController () {
     
 }
 
+@property (assign, nonatomic) NSString *appGroupIdentifier;
 @property (strong, nonatomic) NSString *storeType;
 @property (strong, nonatomic) NSString *storeName;
 @property (strong, nonatomic) NSMutableDictionary *spawnedContexts;
@@ -76,6 +44,20 @@ static APCDController *defaultController = nil;
  *  @return NSURL url for model file
  */
 - (NSURL *)modelURL;
+
+/**
+ *  Gets URL fro store file. Takes in account passed in application container id
+ *
+ *  @return NSURL url for store file
+ */
+- (NSURL *)storeURL;
+
+/**
+ *  Wraps obtaining store name
+ *
+ *  @return NSString fro Info.plist CFBundleName key
+ */
++ (NSString *)storeName;
 
 /**
  *  Exception raising wrapper
@@ -100,22 +82,30 @@ static APCDController *defaultController = nil;
 
 + (instancetype)controllerWithStoreType:(NSString *)storeType
 {
-    APCDController *controller = [[APCDController alloc] initWithStoreType:storeType andName:storeName()];
+    APCDController *controller = [[self alloc] initWithStoreType:storeType andName:[self storeName] inAppGroupWithID:nil];
     
     return controller;
 }
 
 + (instancetype)controllerWithStoreType:(NSString *)storeType andName:(NSString *)storeName
 {
-    APCDController *controller = [[APCDController alloc] initWithStoreType:storeType andName:storeName];
+    APCDController *controller = [[self alloc] initWithStoreType:storeType andName:storeName inAppGroupWithID:nil];
     
     return controller;
 }
 
-- (instancetype)initWithStoreType:(NSString *)storeType andName:(NSString *)storeName
++ (instancetype)controllerWithStoreType:(NSString *)storeType andName:(NSString *)storeName inAppGroupWithID:(NSString *)containerId
+{
+    APCDController *controller = [[self alloc] initWithStoreType:storeType andName:storeName inAppGroupWithID:containerId];
+    
+    return controller;
+}
+
+- (instancetype)initWithStoreType:(NSString *)storeType andName:(NSString *)storeName inAppGroupWithID:(NSString *)containerId
 {
     self = [super init];
     if (self) {
+        _appGroupIdentifier = containerId;
         _storeType = storeType;
         _storeName = storeName;
         _spawnedContexts = [NSMutableDictionary dictionary];
@@ -162,7 +152,7 @@ static APCDController *defaultController = nil;
         NSError *error = nil;
         NSString *psName = [NSString stringWithFormat:@"%@.sqlite", _storeName];
         
-        if (![_psc addPersistentStoreWithType:self.storeType configuration:nil URL:[storeURL() URLByAppendingPathComponent:psName] options:options error:&error]) {
+        if (![_psc addPersistentStoreWithType:self.storeType configuration:nil URL:[[self storeURL] URLByAppendingPathComponent:psName] options:options error:&error]) {
             NSString *exceptionReason = [NSString stringWithFormat:kAPCDControllerStorAddingFailureException, error];
             [self raiseExceptionWithReason:exceptionReason];
         }
@@ -261,10 +251,11 @@ static APCDController *defaultController = nil;
 - (NSURL *)modelURL
 {
     NSString *modelPath = nil;
+    NSBundle *currentBundle = [NSBundle bundleForClass:[self class]];
     
-    modelPath = [[NSBundle mainBundle] pathForResource:_storeName ofType:kAPCDControllerModelMOMDExtension];
+    modelPath = [currentBundle pathForResource:_storeName ofType:kAPCDControllerModelMOMDExtension];
     if (!modelPath) {
-        modelPath = [[NSBundle mainBundle] pathForResource:_storeName ofType:kAPCDControllerModelMOMExtension];
+        modelPath = [currentBundle pathForResource:_storeName ofType:kAPCDControllerModelMOMExtension];
         if (!modelPath) {
             return nil;
         }
@@ -273,6 +264,38 @@ static APCDController *defaultController = nil;
     NSURL *modelURL = [NSURL fileURLWithPath:modelPath];
     
     return modelURL;
+}
+
+- (NSURL *)storeURL
+{
+#if TARGET_OS_IPHONE
+    
+    if (self.appGroupIdentifier) {
+        return [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:self.appGroupIdentifier];
+    }
+    
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
+    
+#elif TARGET_OS_MAC
+    
+    NSURL *appSupportURL = [[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject];
+    NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:kAPCDControllerAppBundleNameKey];
+    appSupportURL = [appSupportURL URLByAppendingPathComponent:appName isDirectory:YES];
+    
+    BOOL isDirectory;
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[appSupportURL path] isDirectory:&isDirectory]) {
+        NSError *creationError = nil;
+        [[NSFileManager defaultManager] createDirectoryAtURL:appSupportURL withIntermediateDirectories:YES attributes:nil error:&creationError];
+    }
+    
+    return appSupportURL;
+    
+#endif
+}
+
++ (NSString *)storeName
+{
+    return [[NSBundle bundleForClass:[self class]] objectForInfoDictionaryKey:kAPCDControllerAppBundleNameKey];
 }
 
 - (void)raiseExceptionWithReason:(NSString *)reason

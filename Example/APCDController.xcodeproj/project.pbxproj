@@ -13,6 +13,8 @@
 		0E56860F19CC23D800457E13 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E56860E19CC23D800457E13 /* CoreData.framework */; };
 		0E9CEAC019CBF9F40051B197 /* APCDController.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E9CEABE19CBF9F40051B197 /* APCDController.xcdatamodeld */; };
 		0EA09E4D19D079D30074CF90 /* APCDController_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA09E4C19D079D30074CF90 /* APCDController_Tests.m */; };
+		0ED5AE1C1ACE705A005CBBFE /* APCDController.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E9CEABE19CBF9F40051B197 /* APCDController.xcdatamodeld */; };
+		0ED5AE1D1ACE705E005CBBFE /* Foo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E4892261A69158B0019CE4F /* Foo.xcdatamodeld */; };
 		45E37638D37C92B33D6B1C1E /* libPods-APCDController_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 21BCF0834C1CB76F79DEE4F4 /* libPods-APCDController_Tests.a */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -39,11 +41,12 @@
 /* Begin PBXFileReference section */
 		051C33309BE4B963BE9EBE38 /* Pods-APCDController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APCDController.release.xcconfig"; path = "Pods/Target Support Files/Pods-APCDController/Pods-APCDController.release.xcconfig"; sourceTree = "<group>"; };
 		0E20F0A219E5093100861B5D /* libPods-APCDController.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-APCDController.a"; path = "Pods/build/Debug-iphoneos/libPods-APCDController.a"; sourceTree = "<group>"; };
+		0E45372F1A7136B1008E65F1 /* APCDController.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = APCDController.entitlements; sourceTree = "<group>"; };
 		0E4892271A69158B0019CE4F /* Foo 1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Foo 1.0.xcdatamodel"; sourceTree = "<group>"; };
 		0E56860919CC00B100457E13 /* APProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APProduct.h; path = ../../APProduct.h; sourceTree = "<group>"; };
 		0E56860A19CC00B100457E13 /* APProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APProduct.m; path = ../../APProduct.m; sourceTree = "<group>"; };
 		0E56860E19CC23D800457E13 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		0E7725DF1A6E544D003F4729 /* Foo 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Foo 1.1.xcdatamodel"; sourceTree = "<group>"; };
+		0E7725DF1A6E544D003F4729 /* Foo 1.1.xcdatamodel */ = {isa = PBXFileReference; explicitFileType = wrapper.xcdatamodel; path = "Foo 1.1.xcdatamodel"; sourceTree = "<group>"; };
 		0E9CEABF19CBF9F40051B197 /* APCDController.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = APCDController.xcdatamodel; sourceTree = "<group>"; };
 		0EA09E4819D079D30074CF90 /* APCDController_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = APCDController_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EA09E4B19D079D30074CF90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -167,6 +170,7 @@
 		6003F593195388D20070C39A /* APCDController */ = {
 			isa = PBXGroup;
 			children = (
+				0E45372F1A7136B1008E65F1 /* APCDController.entitlements */,
 				0E9CEABD19CBF9E30051B197 /* Model */,
 				6003F59C195388D20070C39A /* APAppDelegate.h */,
 				6003F59D195388D20070C39A /* APAppDelegate.m */,
@@ -266,6 +270,14 @@
 					0EA09E4719D079D30074CF90 = {
 						CreatedOnToolsVersion = 6.0.1;
 						TestTargetID = 6003F589195388D20070C39A;
+					};
+					6003F589195388D20070C39A = {
+						DevelopmentTeam = AM5334753U;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -376,7 +388,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0ED5AE1D1ACE705E005CBBFE /* Foo.xcdatamodeld in Sources */,
 				0EA09E4D19D079D30074CF90 /* APCDController_Tests.m in Sources */,
+				0ED5AE1C1ACE705A005CBBFE /* APCDController.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -581,10 +595,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = APCDController/APCDController.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "APCDController/APCDController-Prefix.pch";
 				INFOPLIST_FILE = "APCDController/APCDController-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos8.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -597,10 +615,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = APCDController/APCDController.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "APCDController/APCDController-Prefix.pch";
 				INFOPLIST_FILE = "APCDController/APCDController-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos8.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;

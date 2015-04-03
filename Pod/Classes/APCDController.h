@@ -30,7 +30,7 @@
 /**
  *  Convinience initializer
  *
- *  @param storeType NSString indicating store type. Available are NSSQLiteStoreType, NSXMLStoreType, NSBinaryStoreType, NSInMemoryStoreType. Using CFBundleName Info.plist value as model file name.
+ *  @param storeType    NSString    indicating store type. Available are NSSQLiteStoreType, NSXMLStoreType, NSBinaryStoreType, NSInMemoryStoreType. Using CFBundleName Info.plist value as model file name.
  *
  *  @return AVMCDController with store of passed type.
  */
@@ -39,21 +39,35 @@
 /**
  *  Convinience initializer
  *
- *  @param storeType NSString indicating store type. Available are NSSQLiteStoreType, NSXMLStoreType, NSBinaryStoreType, NSInMemoryStoreType
- *  @param storeName NSString used for store name in case store type is set to NSSQLiteStoreType. Ignored for other store types.
+ *  @param storeType    NSString    indicating store type. Available are NSSQLiteStoreType, NSXMLStoreType, NSBinaryStoreType, NSInMemoryStoreType
+ *  @param storeName    NSString    used for store name in case store type is set to NSSQLiteStoreType. Ignored for other store types.
  *
  *  @return AVMCDController with store of passed type.
  */
 + (instancetype)controllerWithStoreType:(NSString *)storeType andName:(NSString *)storeName;
 
 /**
+ *  Convinience initializer
+ *
+ *  @param storeType    NSString    indicating store type. Available are NSSQLiteStoreType, NSXMLStoreType, NSBinaryStoreType, NSInMemoryStoreType
+ *  @param storeName    NSString    used for store name in case store type is set to NSSQLiteStoreType. Ignored for other store types.
+ *  @param containerId  NSString    identifier for application group to use for persistent store. Used to share store with app extension or XPC service.
+ *
+ *  @return AVMCDController with store of passed type.
+ */
++ (instancetype)controllerWithStoreType:(NSString *)storeType andName:(NSString *)storeName inAppGroupWithID:(NSString *)containerId;
+
+/**
  *  Designated initializer
  *
- *  @param storeType NSString indicating store type. Available are NSSQLiteStoreType, NSXMLStoreType, NSBinaryStoreType, NSInMemoryStoreType
+ *  @param storeType    NSString    indicating store type. Available are NSSQLiteStoreType, NSXMLStoreType, NSBinaryStoreType, NSInMemoryStoreType
+ *  @param storeName    NSString    used for store name in case store type is set to NSSQLiteStoreType. Ignored for other store types.
+ *  @param containerId  NSString    identifier for application group to use for persistent store. Used to share store with app extension or XPC service.
  *
  *  @return AVMCDController with store of passed type. Avoid using any except NSSQLiteStoreType.
  */
-- (instancetype)initWithStoreType:(NSString *)storeType andName:(NSString *)storeName __attribute__((objc_designated_initializer));
+- (instancetype)initWithStoreType:(NSString *)storeType andName:(NSString *)storeName inAppGroupWithID:(NSString *)containerId
+ __attribute__((objc_designated_initializer));
 
 #pragma mark - Core Data Stack Accessors
 
@@ -68,7 +82,7 @@
 /**
  *  Creates new MOC with NSPrivateQueueConcurrencyType or return already existed using provided name as a key.
  *
- *  @param contextName NSString name to use for context
+ *  @param contextName  NSString    name to use for context
  *
  *  @return NSManagedObjectContext context attached as a child to mainMOC
  */
@@ -79,7 +93,7 @@
  *
  *  @note Returned context will use its own thread and you should access it only with one of 'performBlock' methods. Thread passed in argument is used only for key generation.
  *
- *  @param thread NSThread to be used as a key for context
+ *  @param thread       NSThread    thread to be used as a key for context
  *
  *  @return NSManagedObjectContext context attached as a child to mainMOC
  */
