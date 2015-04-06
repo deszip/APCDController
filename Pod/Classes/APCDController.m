@@ -229,8 +229,11 @@ static APCDController *defaultController = nil;
 
 - (void)performSave
 {
+    /* Check changes in both contexts */
+    if (![[self mainMOC] hasChanges] && ![[self writerMOC] hasChanges]) return;
+    
     /* Save main */
-    [[self mainMOC] performBlock:^(void) {
+    [[self mainMOC] performBlockAndWait:^(void) {
         NSError *error = nil;
         if (![[self mainMOC] save:&error]) {
             NSLog(@"_mainMOC save error: %@", [error description]);
