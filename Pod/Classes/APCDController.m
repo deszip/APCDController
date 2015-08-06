@@ -273,7 +273,7 @@ static APCDController *defaultController = nil;
 {
 #if TARGET_OS_IPHONE
     
-    if (self.appGroupIdentifier) {
+    if (self.appGroupIdentifier.length > 0) {
         return [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:self.appGroupIdentifier];
     }
     
