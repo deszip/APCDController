@@ -116,6 +116,11 @@ static APCDController *defaultController = nil;
     return self;
 }
 
+- (instancetype)init
+{
+    return [self initWithStoreType:NSSQLiteStoreType andName:@"" inAppGroupWithID:@""];
+}
+
 #pragma mark - CoreData stack
 
 - (NSManagedObjectModel *)dataModel
