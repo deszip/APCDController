@@ -148,7 +148,7 @@
 - (void)updateTickItem
 {
     NSUInteger currentValue = [self.tickItem.title integerValue];
-    [self.tickItem setTitle:[NSString stringWithFormat:@"%u", (currentValue + 1)]];
+    [self.tickItem setTitle:[NSString stringWithFormat:@"%lu", (currentValue + 1)]];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate
