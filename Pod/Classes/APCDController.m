@@ -259,7 +259,7 @@ static APCDController *defaultController = nil;
 - (NSURL *)modelURL
 {
     NSString *modelPath = nil;
-    NSBundle *currentBundle = [NSBundle bundleForClass:[self class]];
+    NSBundle *currentBundle = [NSBundle mainBundle];
     
     modelPath = [currentBundle pathForResource:_storeName ofType:kAPCDControllerModelMOMDExtension];
     if (!modelPath) {
